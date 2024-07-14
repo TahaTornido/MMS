@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Scopes\Searchable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Technician extends Model
+{
+    use HasFactory;
+    use Searchable;
+
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'birthdate',
+        'email',
+        'password',
+        'phone',
+    ];
+
+    protected $searchableFields = ['*'];
+
+    protected $hidden = ['password'];
+
+    protected $casts = [
+        'birthdate' => 'date',
+    ];
+
+    public function diagnoses()
+    {
+        return $this->hasMany(Diagnosis::class);
+    }
+
+    public function maintenances()
+    {
+        return $this->hasMany(Maintenance::class);
+    }
+}
